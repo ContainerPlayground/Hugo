@@ -19,6 +19,14 @@ RUN export DEBIAN_FRONTEND='noninteractive' APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE
         openssh-client \
         unzip
 
+RUN curl -sSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
+COPY files/nodesource.list /etc/apt/sources.list.d/nodesource.list
+RUN export DEBIAN_FRONTEND='noninteractive' APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE='true' \
+    && apt-get --yes update \
+    && apt-get install --yes nodejs \
+    && npm install -g gulp-cli
+
+
 RUN export DEBIAN_FRONTEND='noninteractive' \
     && curl -Ls "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.deb" \
             -o /tmp/hugo.deb \
