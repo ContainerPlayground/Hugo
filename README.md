@@ -1,0 +1,2 @@
+# Hugo
+https://gohugo.io/
