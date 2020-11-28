@@ -1,10 +1,8 @@
 FROM  ubuntu:20.04
 LABEL Maintainer="Mauricio Araya"
 
-ENV LANGUAGE=en_US
-ENV LANG=en_US.UTF-8
 ENV HUGO_VERSION=0.79.0
-
+ENV PATH="/opt/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 ENV LANGUAGE=en_US
 ENV LANG=en_US.UTF-8
 RUN export APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE='true'
@@ -31,6 +29,10 @@ RUN export DEBIAN_FRONTEND='noninteractive' \
     && curl -Ls "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.deb" \
             -o /tmp/hugo.deb \
     && dpkg -i /tmp/hugo.deb
+
+RUN mkdir -p /opt/bin
+COPY files/hugo /opt/bin/hugo
+RUN chmod 755 /opt/bin/hugo
 
 WORKDIR /tmp
 RUN curl -s "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \

@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+string_contains() { [ -z "${2##*$1*}" ]; }
+
+params="$@"
+
+if string_contains 'server' "$params"; then
+  if ! string_contains '--port' "$params"; then
+    params="$params --port ${listen_on}"
+  fi
+  if ! string_contains '--bind' "$params"; then
+    params="$params --bind 0.0.0.0"
+  fi
+fi
+
+/usr/local/bin/hugo $params
